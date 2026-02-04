@@ -4,6 +4,8 @@ Workspace for composing [Strudel](https://strudel.cc/) code snippets. Strudel is
 
 **Cardinal rule:** Never guess function names, sound names, or parameter signatures. Always look them up in the reference files below before writing code.
 
+**Data-first rule:** When answering ANY question about Strudel — whether writing code, explaining behavior, or debugging errors — you MUST search the `data/` directory files FIRST. Do NOT jump to the Strudel source code or rely on your own knowledge. The `data/` files are the authoritative reference. Only consult the Strudel source tree as an absolute last resort, after confirming the data files don't contain the answer.
+
 ## Reference Data
 
 All reference data lives in the `data/` directory as compact JSONL files (one JSON object per line), optimized for Grep lookups. Regenerate with `make data` (see `scripts/generate-data.py`).
@@ -49,11 +51,17 @@ To find a sound: `Grep for the sound name in data/sounds.jsonl`
 
 To check mini-notation: `Read data/mini-notation.jsonl` (small enough to read in full).
 
+### Snippets — `snippets/`
+
+The `snippets/` directory contains `.str` files with working Strudel code examples, including custom function registrations and full compositions. Consult these for reusable patterns, idioms, and custom utilities (e.g., `trancegate`) that may help solve the current task.
+
+To browse snippets: `Glob for snippets/*.str` then read relevant files.
+
 ### Last Resort: Strudel Source Code
 
-`/home/lestrrat/dev/src/codeberg.org/uzu/strudel/`
+Only consult when the data files above don't answer the question. To locate the source tree, check the `STRUDEL_SRC` environment variable. If it is not set, ask the user for the path.
 
-Only consult when the data files above don't answer the question. The source is a pnpm monorepo; each package lives under `packages/<name>/`. Key entry points: `packages/core/pattern.mjs` (pattern engine), `packages/core/controls.mjs` (control parameters), `packages/mini/` (mini-notation parser), `packages/superdough/` (synth/sampler engine), `packages/tonal/` (scales/chords).
+The source is a pnpm monorepo; each package lives under `packages/<name>/`. Key entry points: `packages/core/pattern.mjs` (pattern engine), `packages/core/controls.mjs` (control parameters), `packages/mini/` (mini-notation parser), `packages/superdough/` (synth/sampler engine), `packages/tonal/` (scales/chords).
 
 ## Workflow: Writing a Strudel Snippet
 
