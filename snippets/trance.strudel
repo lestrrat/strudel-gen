@@ -1,0 +1,38 @@
+// Seeded pseudo-random trance gate (from switchangel's strudel scripts).
+// Chops the input into 16th-note steps, randomly mutes some based on
+// density (higher = more gates open), and loops the resulting pattern
+// using seed/length via ribbon so it repeats deterministically.
+// Events are clipped to 70% duration for a staccato pumping feel.
+//   density — controls how many steps are active (biased +0.5)
+//   seed    — ribbon offset; picks which random pattern to lock in
+//   length  — ribbon loop length in cycles
+const trancegate = register('trancegate', (density, seed, length, x) => {
+  density = reify(density) // wrap raw value as a pattern
+    .add(.5)              // bias density upward by 0.5
+  return x
+    .struct(              // apply a rhythmic gate structure to the input pattern
+      rand               // continuous random values between 0 and 1
+        .mul(density)    // scale by density — higher density = more values exceed 0.5
+        .round()         // snap to 0 or 1, producing a binary gate pattern
+        .seg(16)         // sample at 16 steps per cycle (16th-note grid)
+        .rib(seed, length) // loop a fixed slice of the random pattern (deterministic repeat)
+    )
+    .fill()               // fill silent gaps so events stretch to cover rests
+    .clip(.7)             // trim each event to 70% of its duration (staccato pump)
+})
+
+// Laser/zap sound effect (from switchangel's strudel scripts) — sine wave with rapid downward pitch sweep.
+// The pitch envelope drops from (amount * 120) semitones above the base
+// note, and both pitch and amplitude decay at the same rate for a tight
+// percussive "pew". Routed to orbit 8 for isolated effects.
+//   amount — sweep width (default 0.8 = ~96 semitones / 8 octaves)
+//   speed  — decay time in seconds (default 0.1)
+//   note   — landing pitch (default c3)
+const zap = register('zap', (amount = .8, speed = .1, note = 'c3') =>
+  s("sine")                        // sine wave oscillator
+    .penv(reify(amount).mul(120))  // pitch envelope: sweep down from (amount × 120) semitones above
+    .note(note)                    // base/landing pitch
+    .pdec(speed)                   // pitch envelope decay time in seconds
+    .dec(speed)                    // amplitude envelope decay time in seconds
+    .o(8)                          // route to orbit 8 for isolated effects processing
+)
