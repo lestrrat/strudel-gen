@@ -50,19 +50,19 @@ If the request is ambiguous, make a reasonable artistic choice and note what you
 
 **This is mandatory. Never skip lookups.**
 
-1. **Sounds:** Search `sounds.json` for every sound name you plan to use. If a sound doesn't exist, find an alternative that does.
-   - File: `/home/lestrrat/dev/src/github.com/lestrrat/strudel-docs/soundbank/output/sounds.json`
-   - Also consult: `/home/lestrrat/dev/src/github.com/lestrrat/strudel-docs/soundbank/output/sounds-1.md` and `sounds-2.md`
+All reference data lives in the `data/` directory as compact JSONL files (one JSON object per line), optimized for Grep lookups.
 
-2. **Functions:** Search `functions.json` for every function you plan to use. Verify parameter signatures and check for aliases.
-   - File: `/home/lestrrat/dev/src/github.com/lestrrat/strudel-docs/api/output/functions.json`
-   - Also consult the relevant category markdown files under `/home/lestrrat/dev/src/github.com/lestrrat/strudel-docs/api/output/reference/`
+1. **Sounds:** Grep for the sound name in `data/sounds.jsonl`. If a sound doesn't exist, find an alternative that does.
 
-3. **Mini-notation:** If using mini-notation, verify syntax against `/home/lestrrat/dev/src/github.com/lestrrat/strudel-docs/patterns/output/patterns-1.md`
+2. **Functions:** Grep for `"name":"<fn>"` in `data/functions.jsonl` for every function you plan to use. Verify parameter signatures, check for aliases, and review examples. To browse a category, Grep for `"cat":"<Category>"`.
 
-4. **Effects:** For any effects, consult `/home/lestrrat/dev/src/github.com/lestrrat/strudel-docs/api/output/reference/effects.md`
+3. **Mini-notation:** Read `data/mini-notation.jsonl` to verify syntax (small enough to read in full).
 
-5. **Tonal:** For scales, chords, or voicings, consult `/home/lestrrat/dev/src/github.com/lestrrat/strudel-docs/api/output/reference/tonal.md`
+4. **Effects:** Grep for `"cat":"Effects"` in `data/functions.jsonl` to find effect functions.
+
+5. **Tonal:** Grep for `"cat":"Tonal"` in `data/functions.jsonl` for scales, chords, or voicings.
+
+6. **Last resort — Strudel source code:** Only consult `/home/lestrrat/dev/src/codeberg.org/uzu/strudel/` when the data files above don't answer the question.
 
 ### Phase 3 — Compose the code
 
@@ -100,9 +100,9 @@ Write the Strudel snippet following these principles:
 ### Phase 4 — Verify before presenting
 
 Before showing the code, confirm:
-- Every sound name exists in `sounds.json`
-- Every function name exists in `functions.json`
-- Mini-notation syntax is correct
+- Every sound name exists in `data/sounds.jsonl`
+- Every function name exists in `data/functions.jsonl`
+- Mini-notation syntax is correct per `data/mini-notation.jsonl`
 - Method chains are valid (pattern methods return patterns)
 - The musical result matches the user's intent
 
