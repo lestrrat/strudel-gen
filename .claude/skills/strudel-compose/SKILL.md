@@ -1,5 +1,5 @@
 ---
-name: compose
+name: strudel-compose
 description: Expert Strudel code generator that converts vague musical descriptions into polished, verified Strudel snippets. Use when the user wants to create Strudel music code.
 argument-hint: <musical description>
 ---
