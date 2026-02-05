@@ -8,5 +8,6 @@ const pulse = s("pulse")
   .dec(0.1)
   .fm(time)
   .fmh(time)
+  .gain(0.5)
 
 pulse
