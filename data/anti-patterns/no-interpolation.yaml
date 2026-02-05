@@ -1,0 +1,5 @@
+bad: |
+  "${myVar} bd sd"
+why: No string interpolation in mini-notation — patterns are parsed at runtime, not template literals
+good: |
+  Pass variables as function arguments: s("bd sd").bank(myVar)

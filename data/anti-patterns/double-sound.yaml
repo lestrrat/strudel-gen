@@ -1,0 +1,5 @@
+bad: |
+  s("bd").sound("hh")
+why: s() and sound() are aliases — the second call overwrites the first
+good: |
+  Use one or the other: s("bd") or sound("bd")

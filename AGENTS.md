@@ -66,6 +66,16 @@ Fields: `id` (identifier), `bad` (the anti-pattern), `why` (explanation), `good`
 
 **IMPORTANT:** Always check anti-patterns before presenting code. Read `data/anti-patterns.jsonl` during verification.
 
+**Adding/removing anti-patterns:** Source files live in `data/anti-patterns/*.yaml`. Each file uses the filename as the `id` and has the following structure:
+```yaml
+bad: |
+  [5 ~ ~ ~ ~ ~ ~ ~]
+why: Verbose repetition of rests
+good: |
+  [5 ~!7]
+```
+Run `make anti-patterns` to regenerate `data/anti-patterns.jsonl`.
+
 ### Idioms — `data/idioms.jsonl`
 
 Reusable code patterns and human-performer-friendly idioms, one per line:

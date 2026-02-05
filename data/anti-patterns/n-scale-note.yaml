@@ -1,0 +1,5 @@
+bad: |
+  n("0 1 2").scale("C:minor").note()
+why: Calling note() after scale() is redundant — scale() already maps to pitch
+good: |
+  n("0 1 2").scale("C:minor").s("synth")

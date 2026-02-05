@@ -1,0 +1,5 @@
+bad: |
+  pattern.replace(...) or pattern.slice(...)
+why: Mini-notation strings become patterns at parse time — JS string methods don't work on them
+good: |
+  Write the full pattern directly in the string

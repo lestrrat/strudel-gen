@@ -1,0 +1,5 @@
+bad: |
+  note("c3").add("0 1 2 3")
+why: Calling .add() on the pattern result (after note()) does not combine patterns as expected — the add pattern is sampled at event times, not merged
+good: |
+  note("c3!4".add("0 1 2 3")) — call .add() on the mini-notation string inside note()

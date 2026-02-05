@@ -1,0 +1,5 @@
+bad: |
+  [5 ~ ~ ~ ~ ~ ~ ~]
+why: Verbose repetition of rests
+good: |
+  [5 ~!7]

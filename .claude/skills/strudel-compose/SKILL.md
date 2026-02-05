@@ -114,6 +114,8 @@ Before showing the code, run through this checklist. **If any check fails, retur
 - [ ] No string interpolation in mini-notation (no `${var}` in pattern strings)
 - [ ] No JS string methods on patterns (no `.replace()`, `.slice()`)
 - [ ] Tempo is correct: `setcpm(BPM/4)` for 4/4 time
+- [ ] No calling pattern methods like `.add()` on pattern results instead of mini-notation strings
+- [ ] No redundant function calls (`s()` and `sound()` are aliases — use one, not both)
 
 **Idiom alignment:** Read `data/idioms.jsonl` and check:
 - [ ] If an idiom covers a pattern you wrote, does your code follow its recommended approach?

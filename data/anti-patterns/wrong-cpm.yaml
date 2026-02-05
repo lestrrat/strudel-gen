@@ -1,0 +1,5 @@
+bad: |
+  setcpm(140)
+why: 140 cpm = 140 cycles per minute = 560 BPM in 4/4 time
+good: |
+  setcpm(140/4) for 140 BPM in 4/4 time
