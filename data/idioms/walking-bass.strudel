@@ -1,0 +1,40 @@
+// @name: walking-bass
+// @cat: rhythm
+// @desc: A walking bass moves stepwise — transposing a pattern with .add() doesn't create true walking motion
+// @notes: Walking bass lines move by steps with chromatic passing tones, not by preserving an interval pattern. Using .add() to transpose a fixed pattern creates parallel motion (arpeggiation), not walking. For authentic walking bass, write out lines per chord using note() with actual note names, and use cat() to sequence them. For blues feel: include the flat 7 (dominant 7) in chromatic approaches — e.g., approaching C use "a bb b" not "ab a b". The flat 7 is the characteristic blues note; omitting it sounds cleaner but loses the bluesy quality.
+
+// WRONG: Using .add() to transpose a pattern
+// This preserves intervallic contour — it's arpeggiation, not walking
+const chordRoots = "<0!4 3!2 0!2 4 3 0 4>"
+const arpeggioPattern = "0 2 4 5"
+const notWalking = n(arpeggioPattern)
+  .add(n(chordRoots))
+  .scale("E2:blues")
+  .s("sawtooth")
+// Over I chord: E A B D (jumping by 3rds)
+// Over IV chord: A D E G (still jumping — not stepwise!)
+
+// CORRECT: Write actual walking lines with chromatic passing tones
+// Use note() with explicit note names for chromatic control
+// Use cat() to sequence bars
+
+// 12-bar blues in C: C/F/C/C/F/F/C/C/G/F/C/G
+const walkingBassBars = [
+  "c3 bb2 a2 g2",
+  "f2 a2 a#2 b2",
+  "c3 e3 g3 bb3",
+  "c4 bb3 a3 g3",
+  "f3 eb3 c3 a2",
+  "f2 a2 bb2 b2",
+  "c3 e3 f3 gb3",
+  "g3 a3 bb3 c4",
+  "g3 f3 e3 g3",
+  "f3 eb3 d3 db3",
+  "c3 bb2 a2 ab2",
+  "g2 a2 bb2 b2",
+]
+
+const walkingBass = note(cat(...walkingBassBars))
+  .s("sawtooth")
+
+walkingBass

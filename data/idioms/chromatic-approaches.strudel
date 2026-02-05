@@ -1,0 +1,28 @@
+// @name: chromatic-approaches
+// @cat: melody
+// @desc: Walking bass must approach target notes by step — use chromatic passing tones to avoid jumps
+// @notes: Walking bass lines move stepwise. When you need to connect two notes more than a whole step apart, fill in chromatic passing tones. The approach note (last note before the target) should be a half step away. For blues, use the flat 7 (e.g., Bb when approaching C) rather than the natural 7 for authentic sound.
+
+// WRONG: Jump from D to F (minor 3rd gap)
+// Bar 4 ends on D, bar 5 starts on F — no passing tone
+const badBar4 = "c3 e3 eb3 d3"
+const bar5 = "f2 a2 c3 eb3"
+// Listener expects stepwise motion but hears a skip
+
+// CORRECT: End bar 4 on E (half step below F)
+const goodBar4 = "c3 bb2 ab2 e2"  // chromatic descent landing on approach note
+// E -> F is a half step — smooth voice leading
+
+// BLUES CHROMATIC APPROACHES:
+// Approaching C from below: a -> bb -> b -> c (use flat 7, not natural 7)
+// Approaching F from below: d -> eb -> e -> f
+// Approaching G from below: e -> f -> gb -> g (or f#)
+
+// WRONG: Using natural 7 approach (sounds too "clean", not bluesy)
+const cleanApproach = "g2 a2 b2 c3"  // works but lacks blues character
+
+// CORRECT: Flat 7 approach for blues feel
+const bluesApproach = "g2 a2 bb2 b2"  // bb is the blue note, b is the leading tone
+// The bb -> b -> c motion is characteristic of blues bass
+
+note(cat(goodBar4, bar5)).s("sawtooth").lpf(400)

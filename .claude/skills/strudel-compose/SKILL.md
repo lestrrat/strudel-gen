@@ -68,6 +68,7 @@ All reference data lives in the `data/` directory as compact JSONL files (one JS
 
 Write the Strudel snippet following these principles:
 
+- **Live-performance friendly by default.** Structure code so performers can easily modify it during a set. Put tweakable parameters (tempo, filter cutoff, gain values) in clearly named variables at the top.
 - **Musicality first.** The code should sound good, not just be technically correct. Consider dynamics, space, and groove.
 - **Idiomatic Strudel.** Use mini-notation where it's concise. Use method chaining naturally. Prefer concise mini-notation operators over spelling out repetitions. The replicate operator (written as an exclamation mark after an element, e.g. "bd" followed by exclamation mark and "4") is better than writing "bd bd bd bd". Likewise "hh*8" is better than writing hh eight times, and "A" with exclamation mark "2" is better than "A A". Use "@" for duration weighting and the exclamation mark operator for replication wherever they reduce verbosity.
 - **Aggressively simplify repeated groups.** Always scan mini-notation strings for repeated subsequences and factor them out using group replication — wrap the repeating group in square brackets and apply the replicate operator. For example, "~ cp ~ cp" should be written as "[~ cp]" followed by exclamation mark "2"; "bd sd bd sd" becomes "[bd sd]" followed by exclamation mark "2"; and inside angle brackets, "<Am Am C C>" becomes "<Am" followed by exclamation mark "2 C" followed by exclamation mark "2>". This applies at any nesting level and combines with other operators — e.g. "[bd sd]" followed by exclamation mark "2" then "*2" would double-speed the replicated group. **Correctness guard:** only factor out groups that are truly identical step-for-step. "bd ~ sd ~" must stay as-is because the two halves differ (bd vs sd). Always mentally expand the simplified pattern and verify it matches the original before using it.
@@ -105,6 +106,7 @@ Before showing the code, confirm:
 - Mini-notation syntax is correct per `data/mini-notation.jsonl`
 - Method chains are valid (pattern methods return patterns)
 - The musical result matches the user's intent
+- **Check idioms for similar patterns:** Read `data/idioms.jsonl` and look for idioms that cover patterns similar to what you wrote (multi-bar forms, arrangements, rhythm patterns). If an idiom exists, verify your code follows its recommended approach and doesn't make the mistakes it warns against (e.g., the idiom may show a WRONG vs CORRECT example).
 
 ### Phase 5 — Present the result
 

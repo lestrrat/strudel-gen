@@ -1,0 +1,59 @@
+// @name: blues-walking-bass-alternation
+// @cat: rhythm
+// @desc: Adding randomness to blues walking bass — alternation must preserve voice leading and blues harmony
+// @notes: In blues, walking bass has strict voice-leading rules. When using <> alternation for variation: (1) BOTH alternatives must walk stepwise to the following note; (2) B natural should ONLY appear as chromatic passing tone (Bb->B->C), never after a leap — it's not a chord tone in blues; (3) Each bar must clearly outline the chord (root beat 1, 3rd typically beat 2); (4) "Random walking bass" via irand() is not walking bass — walking requires deliberate voice leading, not random scale degrees.
+
+// WRONG: Alternation where one option creates a leap to B natural
+// If Strudel picks G2, we get G2->B2 (major 3rd leap)
+// B natural after a leap sounds wrong — in blues it's only a passing tone
+const badAlternation = note("[C2 E2 <G2 Bb2> B2]")
+  .s("gm_acoustic_bass")
+// G2 -> B2 is a leap AND B isn't approached chromatically
+
+// WRONG: Random scale degrees is NOT walking bass
+const notWalking = n(irand(6))
+  .struct("x*4")
+  .scale("C2:blues")
+  .s("gm_acoustic_bass")
+// This is chaos — no voice leading, no chord outline, not blues
+
+// WRONG: Alternation that uses a note outside the chord
+const noThird = note("[F2 <A2 Ab2> C3 B2]")
+  .s("gm_acoustic_bass")
+// F7 has A natural (major 3rd), not Ab — bar loses its blues identity
+
+// CORRECT: Both alternatives walk stepwise to the next note
+// G2->Bb2 is minor 3rd (acceptable in blues), A2->Bb2 is half step
+const goodAlternation = note("[C2 E2 <G2 A2> Bb2]")
+  .s("gm_acoustic_bass")
+
+// CORRECT: B natural only after Bb (chromatic approach to C)
+const correctBNatural = note("[F2 A2 Bb2 B2]")
+  .s("gm_acoustic_bass")
+// Bb->B->C is the classic blues chromatic walk to the root
+
+// CORRECT: 12-bar blues with safe alternation points
+// I(4) - IV(2) - I(2) - V - IV - I - V turnaround
+const bassLine = note(`<
+  [C2 E2 G2 A2]
+  [C2 E2 <G2 A2> Bb2]
+  [C2 E2 G2 A2]
+  [C2 E2 A2 E2]
+  [F2 A2 C3 <D3 Eb3>]
+  [F2 A2 Bb2 B2]
+  [C2 E2 G2 A2]
+  [C2 E2 A2 F#2]
+  [G2 B2 A2 G2]
+  [F2 A2 Bb2 B2]
+  [C2 E2 <G2 A2> F#2]
+  [G2 B2 D3 B2]
+>`)
+  .s("gm_acoustic_bass")
+  .gain("0.85 0.7 0.75 0.7")
+  .lpf(900)
+// Safe alternation points for blues:
+// - Bar 2 beat 3: G2 or A2, both step to Bb2
+// - Bar 5 beat 4: D3 or Eb3, both valid dominant 7th extensions
+// - Bar 11 beat 3: G2 or A2, both step down to F#2
+
+bassLine

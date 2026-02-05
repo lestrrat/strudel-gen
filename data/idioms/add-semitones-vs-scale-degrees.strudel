@@ -1,0 +1,25 @@
+// @name: add-semitones-vs-scale-degrees
+// @cat: melody
+// @desc: n().scale() uses scale degree indices while note() uses semitones (half steps)
+// @notes: With n().scale(), numbers are positions in the scale (0=root, 1=second, 2=third...). With note(), numbers are MIDI semitones. Adding works in those respective units.
+
+// KEY DISTINCTION:
+// n().scale() — numbers are SCALE DEGREE INDICES (0, 1, 2... = root, 2nd, 3rd...)
+// note()     — numbers are SEMITONES / half steps (MIDI note numbers)
+
+// These two produce the same note (D):
+const x1 = n("0!8".add("<1>")).scale("C:major").s("piano")
+// Scale degree 0 = C, add 1 scale degree = scale degree 1 = D
+
+const x2 = note("c3!8".add("<2>")).s("piano")
+// C3 = MIDI 48, add 2 semitones = MIDI 50 = D3
+
+// WHY THE DIFFERENCE?
+// In C major, C to D is one scale degree but TWO semitones (whole step).
+// So +1 scale degree ≠ +1 semitone.
+
+// PRACTICAL IMPLICATIONS:
+// Use n().scale() when you want to stay diatonic (in key)
+// Use note() when you want chromatic control (exact intervals)
+
+stack(x1, x2)

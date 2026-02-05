@@ -1,0 +1,20 @@
+// @name: multi-bar-form
+// @cat: rhythm
+// @desc: Use alternation <> for multi-bar chord progressions — don't add .slow()
+// @notes: Each element in <> already plays for one cycle (bar). Adding .slow(N) multiplies the duration, not divides it. For a 12-bar blues, use 12 elements in <>, not <4 elements>.slow(12).
+
+// WRONG: .slow(12) makes each of the 12 elements last 12 cycles = 144 cycles total
+// const badRoots = "<0!4 3!2 0!2 4 3 0 4>"
+// n(badRoots).slow(12)  // 144 cycles, not 12!
+
+// CORRECT: <> alternation already gives one element per cycle
+// 12 elements = 12 bars, no .slow() needed
+
+// 12-bar blues in C: I(4) IV(2) I(2) V IV I V
+// Using chord() for pad voicings — parallel motion is fine here
+const progression = chord("<C!4 F!2 C!2 G F C G>")
+  .voicing()
+  .s("supersaw")
+  .room(0.3)
+
+progression
