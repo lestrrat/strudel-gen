@@ -51,11 +51,34 @@ To find a sound: `Grep for the sound name in data/sounds.jsonl`
 
 To check mini-notation: `Read data/mini-notation.jsonl` (small enough to read in full).
 
+### Idioms — `data/idioms.jsonl`
+
+Reusable code patterns and human-performer-friendly idioms, one per line:
+```
+{"name":"beat-switcher","cat":"live-performance","desc":"...","notes":"...","code":"..."}
+```
+
+Fields: `name` (identifier), `cat` (category: live-performance, rhythm, arrangement, melody, effects), `desc` (what it does), `notes` (usage tips), `code` (the actual Strudel code).
+
+To find an idiom: `Grep for "name":"<idiom>" in data/idioms.jsonl`
+To browse by category: `Grep for "cat":"live-performance" in data/idioms.jsonl`
+
+**Adding/removing idioms:** Source files live in `data/idioms/*.strudel`. Each file has a header:
+```
+// @name: my-idiom
+// @cat: category
+// @desc: Short description
+// @notes: Optional usage tips
+
+// code here
+```
+Run `make idioms` to regenerate `data/idioms.jsonl`.
+
 ### Snippets — `snippets/`
 
-The `snippets/` directory contains `.str` files with working Strudel code examples, including custom function registrations and full compositions. Consult these for reusable patterns, idioms, and custom utilities (e.g., `trancegate`) that may help solve the current task.
+The `snippets/` directory contains `.strudel` files with working Strudel code examples, including custom function registrations and full compositions. Consult these for reusable patterns, idioms, and custom utilities (e.g., `trancegate`) that may help solve the current task.
 
-To browse snippets: `Glob for snippets/*.str` then read relevant files.
+To browse snippets: `Glob for snippets/*.strudel` then read relevant files.
 
 ### Last Resort: Strudel Source Code
 
