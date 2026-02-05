@@ -1,14 +1,14 @@
-{"token":"[ ]","meaning":"Group / subdivision","desc":"Subdivides a cycle into equal parts for the elements inside the brackets.","example":"\"[bd sd] hh\""}
-{"token":"< >","meaning":"Alternation","desc":"Alternates between elements on successive cycles.","example":"\"bd <sd cp>\""}
+{"token":"[ ]","meaning":"Group / subdivision","desc":"Subdivides a cycle into equal parts for the elements inside the brackets.","example":"\"[bd sd] hh\"","rewrites":["[a b] [a b] → [a b]!2","[x x x x] → x!4 (at top level) or [x!4] (nested)"]}
+{"token":"< >","meaning":"Alternation","desc":"Alternates between elements on successive cycles.","example":"\"bd <sd cp>\"","rewrites":["<A A B B> → <A!2 B!2>","<X X X Y> → <X!3 Y>"]}
 {"token":"{ }","meaning":"Polymetric sequence","desc":"Creates a polymetric sequence — elements cycle at their own rate over the parent cycle.","example":"\"{bd sd cp, hh hh hh hh}\""}
 {"token":"( )","meaning":"Euclidean rhythm","desc":"Distributes n events evenly over k steps using the Euclidean algorithm.","example":"\"bd(3,8)\""}
-{"token":"*","meaning":"Speed up / repeat","desc":"Repeats an element n times within its time slot.","example":"\"bd*4 sd\""}
+{"token":"*","meaning":"Speed up / repeat","desc":"Repeats an element n times within its time slot.","example":"\"bd*4 sd\"","rewrites":["Use * for subdivision (faster playback), ! for replication (same speed, more steps)"]}
 {"token":"/","meaning":"Slow down","desc":"Plays an element once every n cycles.","example":"\"bd sd/2\""}
 {"token":",","meaning":"Parallel / stack","desc":"Plays multiple patterns simultaneously (stacks them).","example":"\"bd sd, hh hh hh hh\""}
-{"token":"~","meaning":"Rest / silence","desc":"Inserts a silent step.","example":"\"bd ~ sd ~\""}
+{"token":"~","meaning":"Rest / silence","desc":"Inserts a silent step.","example":"\"bd ~ sd ~\"","rewrites":["~ ~ ~ ~ → ~!4","[x ~ ~ ~] → [x ~!3]","~ ~ ~ ~ ~ ~ ~ ~ → ~!8"]}
 {"token":"?","meaning":"Degrade / random drop","desc":"Randomly removes the event with 50% probability (or a given probability).","example":"\"bd sd? hh cp\""}
-{"token":"!","meaning":"Replicate","desc":"Repeats the element n times, each taking its own step (unlike * which subdivides).","example":"\"bd!3 sd\""}
-{"token":"@","meaning":"Elongate / weight","desc":"Makes an element take up n steps worth of time.","example":"\"bd@3 sd\""}
+{"token":"!","meaning":"Replicate","desc":"Repeats the element n times, each taking its own step (unlike * which subdivides).","example":"\"bd!3 sd\"","rewrites":["bd bd bd → bd!3","~ ~ ~ ~ → ~!4","[a b] [a b] [a b] → [a b]!3","[x ~ ~ ~ ~ ~ ~ ~] → [x ~!7]","<Am Am C C> → <Am!2 C!2>"]}
+{"token":"@","meaning":"Elongate / weight","desc":"Makes an element take up n steps worth of time.","example":"\"bd@3 sd\"","rewrites":["c4 _ → c4@2 (often cleaner for held notes)"]}
 {"token":".","meaning":"Shorthand subdivision","desc":"Shorthand for grouping — \"bd . sd hh\" is equivalent to \"[bd] [sd hh]\".","example":"\"bd . sd hh\""}
 {"token":":","meaning":"Sample index / select","desc":"Selects a specific sample variant by index from a sample bank.","example":"\"bd:2 sd:1\""}
-{"token":"_","meaning":"Elongate (continuation)","desc":"Extends the previous element into this step (legato/tie).","example":"\"c3 _ e3 g3\""}
+{"token":"_","meaning":"Elongate (continuation)","desc":"Extends the previous element into this step (legato/tie).","example":"\"c3 _ e3 g3\"","rewrites":["c3 _ _ _ → c3@4 (@ is often cleaner)"]}

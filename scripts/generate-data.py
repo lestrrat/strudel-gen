@@ -156,6 +156,16 @@ def _write_drum_aliases(out, info):
 # mini-notation.jsonl
 # ---------------------------------------------------------------------------
 
+def load_rewrites_overlay(out_dir):
+    """Load local rewrites overlay if it exists."""
+    overlay_path = os.path.join(out_dir, 'mini-notation-rewrites.json')
+    if os.path.isfile(overlay_path):
+        with open(overlay_path) as f:
+            data = json.load(f)
+        return data.get('rewrites', {})
+    return {}
+
+
 def generate_mini_notation(src_dir, out_dir):
     """One JSON object per mini-notation token."""
     path = os.path.join(src_dir, 'patterns', 'output', 'patterns.json')
@@ -164,6 +174,9 @@ def generate_mini_notation(src_dir, out_dir):
 
     mini = data.get('miniNotation', {})
     tokens = mini.get('tokens', [])
+
+    # Load local rewrites overlay
+    rewrites = load_rewrites_overlay(out_dir)
 
     count = 0
     with open(os.path.join(out_dir, 'mini-notation.jsonl'), 'w') as out:
@@ -175,6 +188,9 @@ def generate_mini_notation(src_dir, out_dir):
             }
             if token.get('example'):
                 rec['example'] = token['example']
+            # Merge rewrites from overlay if present
+            if token['token'] in rewrites:
+                rec['rewrites'] = rewrites[token['token']]
             out.write(json.dumps(rec, separators=(',', ':'), ensure_ascii=False) + '\n')
             count += 1
 

@@ -46,10 +46,25 @@ To find a sound: `Grep for the sound name in data/sounds.jsonl`
 
 14 tokens, one per line:
 ```
-{"token":"[ ]","meaning":"Group / subdivision","desc":"...","example":"\"[bd sd] hh\""}
+{"token":"[ ]","meaning":"Group / subdivision","desc":"...","example":"\"[bd sd] hh\"","rewrites":["[a b] [a b] → [a b]!2"]}
 ```
 
+Fields: `token`, `meaning`, `desc`, `example`, and optionally `rewrites` (before→after simplification examples).
+
 To check mini-notation: `Read data/mini-notation.jsonl` (small enough to read in full).
+
+**Rewrites overlay:** The `rewrites` field comes from `data/mini-notation-rewrites.json`. Run `make rewrites` to merge it into the existing `mini-notation.jsonl` without regenerating from strudel-docs.
+
+### Anti-patterns — `data/anti-patterns.jsonl`
+
+Common mistakes and their corrections, one per line:
+```
+{"id":"verbose-rests","bad":"[5 ~ ~ ~ ~ ~ ~ ~]","why":"Verbose repetition","good":"[5 ~!7]"}
+```
+
+Fields: `id` (identifier), `bad` (the anti-pattern), `why` (explanation), `good` (the correct approach).
+
+**IMPORTANT:** Always check anti-patterns before presenting code. Read `data/anti-patterns.jsonl` during verification.
 
 ### Idioms — `data/idioms.jsonl`
 
@@ -100,11 +115,18 @@ Follow these steps in order when asked to write Strudel code.
 
 **Step 5 — Compose the snippet.** Write the code using only verified function names, sound names, and syntax.
 
-**Step 6 — Verify.** Before presenting the snippet:
-- Every function name appears in `data/functions.jsonl`.
-- Every sound name appears in `data/sounds.jsonl`.
-- Mini-notation syntax follows documented rules.
-- Method chaining is consistent with documented return types (pattern methods return patterns).
+**Step 6 — Verify.** Before presenting the snippet, check ALL of the following:
+
+- [ ] Every function name appears in `data/functions.jsonl`
+- [ ] Every sound name appears in `data/sounds.jsonl`
+- [ ] Mini-notation syntax follows documented rules
+- [ ] Method chaining is consistent (pattern methods return patterns)
+- [ ] **No anti-patterns** — scan code against `data/anti-patterns.jsonl`:
+  - [ ] No verbose repetitions: `~ ~ ~ ~` → `~!4`, `bd bd bd` → `bd!3`, `[a b] [a b]` → `[a b]!2`
+  - [ ] No string interpolation in mini-notation (no `${var}` in pattern strings)
+  - [ ] No JS string methods on patterns (no `.replace()`, `.slice()`)
+  - [ ] Tempo is correct: `setcpm(BPM/4)` for 4/4 time, not `setcpm(BPM)`
+- [ ] **Rewrites applied** — check `rewrites` field in `data/mini-notation.jsonl` for simplifications
 
 ## Semantic Mapping: Musical Concepts to Documentation
 

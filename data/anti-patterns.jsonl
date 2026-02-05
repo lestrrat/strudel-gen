@@ -1,0 +1,11 @@
+{"id":"no-interpolation","bad":"\"${myVar} bd sd\"","why":"No string interpolation in mini-notation — patterns are parsed at runtime, not template literals","good":"Pass variables as function arguments: s(\"bd sd\").bank(myVar)"}
+{"id":"no-string-methods","bad":"pattern.replace(...) or pattern.slice(...)","why":"Mini-notation strings become patterns at parse time — JS string methods don't work on them","good":"Write the full pattern directly in the string"}
+{"id":"verbose-rests","bad":"[5 ~ ~ ~ ~ ~ ~ ~]","why":"Verbose repetition of rests","good":"[5 ~!7]"}
+{"id":"verbose-rests-top","bad":"~ ~ ~ ~","why":"Verbose repetition of rests","good":"~!4"}
+{"id":"verbose-elements","bad":"bd bd bd bd","why":"Verbose repetition of identical elements","good":"bd!4"}
+{"id":"verbose-groups","bad":"[a b] [a b] [a b]","why":"Verbose repetition of identical groups","good":"[a b]!3"}
+{"id":"verbose-alternation","bad":"<Am Am C C G G>","why":"Verbose repetition in alternation","good":"<Am!2 C!2 G!2>"}
+{"id":"gain-crescendo","bad":"Using gain/volume envelopes alone for crescendo","why":"Crescendo is about orchestration (adding instruments, density, register) not just volume","good":"Use mask() or structural patterns (<~!8 pattern!24>) to add/remove layers over time"}
+{"id":"wrong-cpm","bad":"setcpm(140)","why":"140 cpm = 140 cycles per minute = 560 BPM in 4/4 time","good":"setcpm(140/4) for 140 BPM in 4/4 time"}
+{"id":"double-sound","bad":"s(\"bd\").sound(\"hh\")","why":"s() and sound() are aliases — the second call overwrites the first","good":"Use one or the other: s(\"bd\") or sound(\"bd\")"}
+{"id":"n-scale-note","bad":"n(\"0 1 2\").scale(\"C:minor\").note()","why":"Calling note() after scale() is redundant — scale() already maps to pitch","good":"n(\"0 1 2\").scale(\"C:minor\").s(\"synth\")"}
