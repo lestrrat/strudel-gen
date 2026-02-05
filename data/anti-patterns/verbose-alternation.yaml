@@ -1,5 +1,0 @@
-bad: |
-  <Am Am C C G G>
-why: Verbose repetition in alternation
-good: |
-  <Am!2 C!2 G!2>

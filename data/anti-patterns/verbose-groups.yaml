@@ -1,5 +1,0 @@
-bad: |
-  [a b] [a b] [a b]
-why: Verbose repetition of identical groups
-good: |
-  [a b]!3

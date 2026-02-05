@@ -1,0 +1,5 @@
+bad: |
+  Using gain/volume envelopes alone for buildups in electronic music
+why: In EDM/trance, energy builds through orchestration (adding layers, density, register) not just volume
+good: |
+  Use mask() or structural patterns (<~!8 pattern!24>) to add/remove layers over time

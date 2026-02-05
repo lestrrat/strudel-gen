@@ -1,5 +1,0 @@
-bad: |
-  bd bd bd bd
-why: Verbose repetition of identical elements
-good: |
-  bd!4

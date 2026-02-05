@@ -1,0 +1,13 @@
+bad: |
+  [5 ~ ~ ~ ~ ~ ~ ~]
+  ~ ~ ~ ~
+  bd bd bd bd
+  [a b] [a b] [a b]
+  <Am Am C C G G>
+why: Verbose repetition — use the ! (replicate) operator instead
+good: |
+  [5 ~!7]
+  ~!4
+  bd!4
+  [a b]!3
+  <Am!2 C!2 G!2>
