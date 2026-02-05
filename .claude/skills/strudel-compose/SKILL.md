@@ -119,6 +119,7 @@ Provide:
 
 - **Prefer relative pitch:** Use `n("0 2 4").scale("C4:minor")` over `note("c4 eb4 g4")`. Only use `note()` when absolute pitch is truly needed.
 - `n()` with `.scale()` = scale degree (relative pitch). `n()` without `.scale()` = sample index. `note()` = absolute pitch (note name or MIDI number).
+- **Note name casing:** Use lowercase for single notes (e.g., `c3`, `eb4`, `f#2`) and uppercase for chords (e.g., `C`, `Cm`, `Cmaj7`, `F#m7`). Only the root letter is capitalized in chords.
 - `s()` and `sound()` are aliases.
 - **Do NOT use `$:` or labels.** Use `const` variables and `stack()` to combine layers.
 - Tempo: `setcpm(BPM / 4)` for 4/4 time, or `setcps(BPM / 4 / 60)`.
