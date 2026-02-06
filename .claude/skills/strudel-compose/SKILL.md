@@ -98,15 +98,33 @@ Write the Strudel snippet following these principles:
 - **Appropriate complexity.** Match the complexity to the request. A "simple beat" should be a few lines. A "full track" should have multiple layers with effects.
 - **Tempo.** Always set tempo explicitly with `setcpm()` when the piece has a specific BPM feel. Remember: `setcpm(BPM / 4)` for 4/4 time.
 
-### Phase 4 — Verify before presenting
+### Phase 4 — Verify and iterate
 
-Before showing the code, confirm:
-- Every sound name exists in `data/sounds.jsonl`
-- Every function name exists in `data/functions.jsonl`
-- Mini-notation syntax is correct per `data/mini-notation.jsonl`
-- Method chains are valid (pattern methods return patterns)
-- The musical result matches the user's intent
-- **Check idioms for similar patterns:** Read `data/idioms.jsonl` and look for idioms that cover patterns similar to what you wrote (multi-bar forms, arrangements, rhythm patterns). If an idiom exists, verify your code follows its recommended approach and doesn't make the mistakes it warns against (e.g., the idiom may show a WRONG vs CORRECT example).
+Before showing the code, run through this checklist. **If any check fails, return to Phase 1 with the fix in mind and regenerate.**
+
+**Correctness checks:**
+- [ ] Every sound name exists in `data/sounds.jsonl`
+- [ ] Every function name exists in `data/functions.jsonl`
+- [ ] Mini-notation syntax is correct per `data/mini-notation.jsonl`
+- [ ] Method chains are valid (pattern methods return patterns)
+- [ ] The musical result matches the user's intent
+
+**Anti-pattern scan:** Read `data/anti-patterns.jsonl` and verify your code doesn't contain any listed anti-patterns. Common violations:
+- [ ] No verbose repetitions (`~ ~ ~ ~` → `~!4`, `bd bd bd` → `bd!3`)
+- [ ] No string interpolation in mini-notation (no `${var}` in pattern strings)
+- [ ] No JS string methods on patterns (no `.replace()`, `.slice()`)
+- [ ] Tempo is correct: `setcpm(BPM/4)` for 4/4 time
+
+**Idiom alignment:** Read `data/idioms.jsonl` and check:
+- [ ] If an idiom covers a pattern you wrote, does your code follow its recommended approach?
+- [ ] Are you avoiding mistakes the idiom warns against (WRONG vs CORRECT examples)?
+- [ ] For string operations, are you using single quotes only? (see `string-concatenation` idiom)
+
+**Snippet reference:** Glob `snippets/*.strudel` and scan for similar patterns:
+- [ ] Does a snippet solve the same problem more elegantly?
+- [ ] Can you adopt techniques from existing snippets?
+
+**Iteration rule:** If you find issues during verification, do NOT patch the code in place. Instead, return to Phase 1 with the lessons learned and regenerate the code from scratch. This produces cleaner, more coherent results than incremental fixes.
 
 ### Phase 5 — Present the result
 
