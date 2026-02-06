@@ -1,0 +1,9 @@
+const wind = s("pink")                                     // Select "pink" noise generator as sound source
+  .lpf(perlin.range(400, 900).slow(perlin.range(4, 8)))    // Low-pass filter: perlin noise 400–900 Hz, drift speed itself wanders 4–8 cycles
+  .lpq(perlin.range(2, 6).slow(perlin.range(3, 6)))        // LP resonance: perlin noise 2–6, drift speed wanders 3–6 cycles
+  .gain(perlin.range(0.25, 0.35).slow(perlin.range(4,16))) // Gain (exponential): perlin 0.25–0.35, drift speed wanders 4–16 cycles
+  .room(0.3)                                                // Reverb level at 0.3 (subtle room ambience)
+  .hpf(80)                                                  // High-pass filter at 80 Hz (remove sub-bass rumble)
+  .attack(2)                                                // Amplitude envelope attack: 2 s fade-in
+  .release(2)                                               // Amplitude envelope release: 2 s fade-out
+  .clip(2)                                                  // Duration multiplier: each event lasts 2× its cycle length
