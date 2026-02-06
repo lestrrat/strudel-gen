@@ -1,0 +1,81 @@
+// Chord utility functions — registered as pattern methods for chaining.
+//
+// Usage:
+//   note("c3").major().s("piano")          // C major: c3, e3, g3
+//   note("c3").major(1).s("piano")         // 1st inversion: e3, g3, c4
+//   note("c3").dom7(2).s("piano")          // 2nd inversion: g3, bb3, c4, e4
+//
+// Scale degrees (no hardcoded note names):
+//   note("c3").degree(2).min7().s("piano")    // Dm7
+//   cat(
+//     note("c3").degree(2).min7(),             // Dm7
+//     note("c3").degree(5).dom7(),             // G7
+//     note("c3").degree(1).maj7()              // Cmaj7
+//   ).s("piano")
+
+// Inversion N moves the bottom N notes up by one octave
+const invertIntervals = (intervals, inv) => {
+  const result = [...intervals]
+  for (let i = 0; i < inv; i++) {
+    result.push(result.shift() + 12)
+  }
+  return result
+}
+
+// Core builder: stacks transposed copies of a base pattern
+const mkchord = (intervals, basePat, inv = 0) => {
+  const ivs = invertIntervals(intervals, inv)
+  return stack(...ivs.map(i => reify(basePat).transpose(i)))
+}
+
+// Register a chord method with optional inversion (patternify: false)
+const registerChord = (name, intervals) => {
+  return register(name, (inv, pat) => {
+    if (pat === undefined) {
+      pat = inv
+      inv = 0
+    }
+    return mkchord(intervals, reify(pat), inv)
+  }, false)
+}
+
+// --- Scale degree ---
+const _majorScale = [0, 2, 4, 5, 7, 9, 11]
+
+const degree = register('degree', (deg, pat) => {
+  const idx = ((deg - 1) % 7 + 7) % 7
+  return reify(pat).transpose(_majorScale[idx])
+})
+
+// --- Triads ---
+const major = registerChord('major', [0, 4, 7])
+const minor = registerChord('minor', [0, 3, 7])
+const dim   = registerChord('dim',   [0, 3, 6])
+const aug   = registerChord('aug',   [0, 4, 8])
+const sus2  = registerChord('sus2',  [0, 2, 7])
+const sus4  = registerChord('sus4',  [0, 5, 7])
+
+// --- Seventh chords ---
+const dom7  = registerChord('dom7',  [0, 4, 7, 10])
+const maj7  = registerChord('maj7',  [0, 4, 7, 11])
+const min7  = registerChord('min7',  [0, 3, 7, 10])
+const dim7  = registerChord('dim7',  [0, 3, 6, 9])
+const m7b5  = registerChord('m7b5',  [0, 3, 6, 10])
+const mmaj7 = registerChord('mmaj7', [0, 3, 7, 11])
+
+// --- Extended ---
+const dom9  = registerChord('dom9',  [0, 4, 7, 10, 14])
+const add9  = registerChord('add9',  [0, 4, 7, 14])
+const add11 = registerChord('add11', [0, 4, 7, 17])
+const add13 = registerChord('add13', [0, 4, 7, 21])
+
+// -------------------------------------------------------
+// Example: II-V-I in C major
+// -------------------------------------------------------
+// setcpm(120/4)
+// const key = note("c3")
+// cat(
+//   key.degree(2).min7(),      // Dm7
+//   key.degree(5).dom7(),      // G7
+//   key.degree(1).maj7()       // Cmaj7
+// ).s("piano").room(0.3)
