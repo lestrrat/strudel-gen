@@ -1,0 +1,14 @@
+// @name: edm-foghorn
+// @cat: effects
+// @desc: Classic EDM foghorn sound using supersaw with long release
+// @notes: The long rel(5) creates the signature foghorn tail. beat(2, 32) with slow(2) spaces out the hits. Slightly detuned fmh(2.04) adds richness.
+
+const foghorn = s("supersaw")
+  .detune(1)
+  .rel(5)
+  .beat(2, 32)
+  .slow(2)
+  .fm(2)
+  .fmh(2.04)
+
+foghorn

@@ -1,0 +1,11 @@
+// @name: edm-noise-texture
+// @cat: effects
+// @desc: Evolving white noise texture with rhythmic variation
+// @notes: Sine-modulated decay creates movement. sometimesBy(0.1, ...) adds occasional rhythmic glitches via ply.
+
+const noise = s("white!16")
+  .decay(sine.fast(4).range(0.05, .14))
+  .gain(0.6)
+  .sometimesBy(0.1, x => x.ply("2|4"))
+
+noise

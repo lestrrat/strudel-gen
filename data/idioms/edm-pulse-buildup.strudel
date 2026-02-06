@@ -1,0 +1,13 @@
+// @name: edm-pulse-buildup
+// @cat: effects
+// @desc: Pulse sound that builds intensity over time using FM modulation
+// @notes: fm(time) and fmh(time) increase modulation depth and harmonicity as time progresses, creating an evolving buildup effect.
+
+const pulse = s("pulse")
+  .seg(16)
+  .dec(0.1)
+  .fm(time)
+  .fmh(time)
+  .gain(0.5)
+
+pulse

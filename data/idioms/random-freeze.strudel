@@ -1,0 +1,15 @@
+// @name: random-freeze
+// @cat: live-performance
+// @desc: Generate random pattern, then freeze a repeatable slice with ribbon()
+// @notes: Tweak the first ribbon() param (offset) to scrub through random space and find a pattern you like. The second param controls loop length in cycles.
+
+// Random clap pattern frozen at offset 19, looping 2 cycles
+const cp = s("cp!16?").degradeBy(0.6).ribbon(19, 2)
+
+// The technique works with any randomized pattern:
+// - Change offset (19) to explore different random configurations
+// - Change cycles (2) to control loop length
+// - Works with irand, rand, ?, degradeBy, etc.
+
+// Example with melodic randomness:
+// n(irand(8).segment(4)).scale("C:minor").ribbon(42, 4)
