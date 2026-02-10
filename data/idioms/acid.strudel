@@ -1,8 +1,14 @@
-// @name: acidenv
+// @name: acid
 // @cat: effects
-// @desc: Slider-controlled acid filter envelope via register()
-// @notes: Credit: Switch Angel. Registers "acidenv" as a reusable method. The first argument (x) is typically driven by slider(1) (range 0-1). At x=0, the filter stays closed at 100 Hz (dark/muffled). At x=0.5, a moderate filter sweep gives a plucky wah-like character. At x=1, a full sweep produces bright aggressive transients. Useful for live performance builds, tension control (low for verses, high for drops), and expressive filter knob-style playing.
+// @desc: Acid bass toolkit: slider-controlled filter envelope and TB-303-style bass line
+// @notes: Credit: Switch Angel. Two parts: (1) acidenv — a registered method for slider-driven LP filter sweeps, and (2) an acid bass line demonstrating its use. The style is acid house / acid techno in the vein of the Roland TB-303: 16th-note sawtooth bass through a diode ladder filter with envelope-controlled cutoff. The wavetable + unison layering pushes it into modern acid techno territory — thicker and more aggressive than the original hardware.
 
+// --- acidenv: reusable slider-controlled filter envelope ---
+// The first argument (x) is typically driven by slider() (range 0-1).
+//   x=0   → filter stays closed at 100 Hz (dark/muffled)
+//   x=0.5 → moderate sweep, plucky wah-like character
+//   x=1   → full sweep, bright aggressive transients
+// Useful for live builds, tension control, and expressive filter playing.
 register('acidenv', (x, pat) =>
   pat
     .lpf(100)          // low-pass filter cutoff at 100 Hz
@@ -11,3 +17,19 @@ register('acidenv', (x, pat) =>
     .lpd(.1)           // LP envelope decay time (0.1s)
     .lpq(2)            // LP resonance factor (2)
 )
+
+// --- acid bass line using acidenv ---
+// Classic acid techno bass: 16th-note wavetable+sawtooth through diode
+// distortion with FM modulation for movement. The slider controls how
+// much the filter opens on each hit — from dark and subdued to bright
+// and screaming.
+s("[wt_digital:1,sawtooth]!16")  // 16th-note hits, layered wavetable + saw
+  .wt(.3)                        // wavetable position at 0.3
+  .wtenv(.3)                     // wavetable envelope modulation amount
+  .unison(2)                     // 2 stacked voices for thickness
+  .dec(.16)                      // short decay for clipped percussive hits
+  .diode("4:.35")                // diode ladder filter distortion (TB-303 style)
+  .fm(time.mod("<1 _ _ 2>"))     // FM modulation evolving over time (adds grit)
+  .note("f1")                    // deep bass register (F1)
+  .acidenv(slider(0))            // slider-controlled acid filter envelope
+  ._scope()                      // oscilloscope visualization
