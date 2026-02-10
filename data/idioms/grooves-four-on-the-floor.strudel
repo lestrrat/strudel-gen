@@ -2,6 +2,8 @@
 // @cat: rhythm
 // @desc: Four-on-the-floor kick pattern with live-coding toggle trick
 // @notes: Use commented-out .rib(0, 1/4) to quickly switch between two-step and four-on-the-floor during a live set.
+// @tags: four-on-the-floor, kick, techno, house
+// @functions: s, rib
 
 // simple method
 s("bd!4")

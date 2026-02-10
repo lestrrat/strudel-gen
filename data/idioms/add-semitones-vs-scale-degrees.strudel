@@ -2,6 +2,8 @@
 // @cat: melody
 // @desc: n().scale() uses scale degree indices while note() uses semitones (half steps)
 // @notes: With n().scale(), numbers are positions in the scale (0=root, 1=second, 2=third...). With note(), numbers are MIDI semitones. Adding works in those respective units.
+// @tags: scale, degree, semitone, transpose, pitch
+// @functions: n, scale, s, note, add, stack
 
 // KEY DISTINCTION:
 // n().scale() — numbers are SCALE DEGREE INDICES (0, 1, 2... = root, 2nd, 3rd...)

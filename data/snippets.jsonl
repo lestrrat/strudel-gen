@@ -1,0 +1,9 @@
+{"name":"acid-trance-groove","file":"acid_trance_groove.str","desc":"Acid trance groove with TR909 drums and minor scale at 140 BPM","tags":["acid","trance","tr909","drums","groove","140bpm"]}
+{"name":"call-on-me","file":"call_on_me.strudel","desc":"\"Call on Me\" cover at 120 BPM with bass and melody","tags":["cover","house","melody","bass","120bpm"]}
+{"name":"chord-utils","file":"chord-utils.strudel","desc":"Chord utility functions for inversions and voicings via register()","tags":["chords","utility","register","inversions","voicing"]}
+{"name":"engsummit-intro","file":"engsummit-intro.strudel","desc":"Ominous ambient intro with wind pad and slow evolution at 126 BPM","tags":["ambient","wind","noise","intro","pad","126bpm"]}
+{"name":"ominous-wind","file":"ominous-wind.strudel","desc":"Ominous wind texture using pink noise with perlin-modulated filters","tags":["ambient","wind","noise","texture","perlin"]}
+{"name":"sample-vocal-melody","file":"sample-vocal-melody.strudel","desc":"Vocal sample loading and slicing into segments","tags":["samples","vocal","slicing"]}
+{"name":"sweet-dreams","file":"sweet-dreams-are-made-of-these.strudel","desc":"Sweet Dreams style arrangement with TR909 and TR808","tags":["cover","synthpop","tr909","tr808","arrangement"]}
+{"name":"trancegate","file":"trance.strudel","desc":"Custom trancegate effect for probabilistic rhythmic gating","tags":["trance","gate","register","utility","generative"]}
+{"name":"trance-buildup","file":"trance_buildup_140bpm.strudel","desc":"Full interactive trance build-up with toggleable layers at 140 BPM","tags":["trance","buildup","edm","interactive","layers","140bpm"]}

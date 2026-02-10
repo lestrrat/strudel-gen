@@ -2,6 +2,8 @@
 // @cat: melody
 // @desc: Walking bass must approach target notes by step — use chromatic passing tones to avoid jumps
 // @notes: Walking bass lines move stepwise. When you need to connect two notes more than a whole step apart, fill in chromatic passing tones. The approach note (last note before the target) should be a half step away. For blues, use the flat 7 (e.g., Bb when approaching C) rather than the natural 7 for authentic sound.
+// @tags: walking-bass, chromatic, passing-tone, voice-leading, bass
+// @functions: note, s, lpf, cat
 
 // WRONG: Jump from D to F (minor 3rd gap)
 // Bar 4 ends on D, bar 5 starts on F — no passing tone

@@ -1,3 +1,7 @@
+// @name: chord-utils
+// @desc: Chord utility functions for inversions and voicings via register()
+// @tags: chords, utility, register, inversions, voicing
+
 // Chord utility functions — registered as pattern methods for chaining.
 //
 // Usage:

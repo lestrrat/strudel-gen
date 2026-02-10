@@ -2,6 +2,8 @@
 // @cat: live-performance
 // @desc: Toggle patterns on/off with underscore prefix on reactive statements
 // @notes: Prefix a reactive statement with _ to mute it. Easier than commenting out lines during live performance.
+// @tags: toggle, mute, reactive, live
+// @functions: s, fast, gain
 
 // In strudel, you can automatically include patterns in the
 // currently playing pattern by using the `$:` reactive statement.

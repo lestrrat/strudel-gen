@@ -2,6 +2,8 @@
 // @cat: live-performance
 // @desc: Array of beat variations with index selector for live switching
 // @notes: Change `beat` index live to switch patterns. Use struct() with t/~ for readable rhythms.
+// @tags: beat, variation, switch, live, drums
+// @functions: s, struct, stack
 
 const beat = 0
 const beats = [

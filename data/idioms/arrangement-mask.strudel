@@ -2,6 +2,8 @@
 // @cat: arrangement
 // @desc: Multi-bar build-up using mask() for section control
 // @notes: Binary patterns with slow() create arrangement timelines. 0=silent, 1=playing. Loops automatically.
+// @tags: arrangement, build, section, mask, structure
+// @functions: mask, slow, s, n, scale, gain, stack
 
 // 16-bar structure: intro (1-4), build (5-8), drop (9-16)
 const enterBuild = "0!4 1!12".slow(16)

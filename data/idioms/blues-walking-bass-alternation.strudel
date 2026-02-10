@@ -2,6 +2,8 @@
 // @cat: rhythm
 // @desc: Adding randomness to blues walking bass — alternation must preserve voice leading and blues harmony
 // @notes: In blues, walking bass has strict voice-leading rules. When using <> alternation for variation: (1) BOTH alternatives must walk stepwise to the following note; (2) B natural should ONLY appear as chromatic passing tone (Bb->B->C), never after a leap — it's not a chord tone in blues; (3) Each bar must clearly outline the chord (root beat 1, 3rd typically beat 2); (4) "Random walking bass" via irand() is not walking bass — walking requires deliberate voice leading, not random scale degrees.
+// @tags: blues, walking-bass, voice-leading, alternation, bass
+// @functions: note, s, gain, lpf, n, irand, struct, scale
 
 // WRONG: Alternation where one option creates a leap to B natural
 // If Strudel picks G2, we get G2->B2 (major 3rd leap)

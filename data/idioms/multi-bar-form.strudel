@@ -2,6 +2,8 @@
 // @cat: rhythm
 // @desc: Use alternation <> for multi-bar chord progressions — don't add .slow()
 // @notes: Each element in <> already plays for one cycle (bar). Adding .slow(N) multiplies the duration, not divides it. For a 12-bar blues, use 12 elements in <>, not <4 elements>.slow(12).
+// @tags: form, progression, chords, alternation
+// @functions: chord, voicing, s, room
 
 // WRONG: .slow(12) makes each of the 12 elements last 12 cycles = 144 cycles total
 // const badRoots = "<0!4 3!2 0!2 4 3 0 4>"

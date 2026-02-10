@@ -2,6 +2,8 @@
 // @cat: rhythm
 // @desc: 4/4 metronome click track with accented downbeat
 // @notes: Uses sawtooth for a sharp click. First beat is pitched up and louder. Adjust gain to taste for your setup.
+// @tags: metronome, click, tempo, practice
+// @functions: s, struct, note, add, clip, gain
 
 // 4/4 metronome / click track
 // struct/add/gain should be tuned according to the setup

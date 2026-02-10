@@ -80,13 +80,14 @@ Run `make anti-patterns` to regenerate `data/anti-patterns.jsonl`.
 
 Reusable code patterns and human-performer-friendly idioms, one per line:
 ```
-{"name":"beat-switcher","cat":"live-performance","desc":"...","notes":"...","code":"..."}
+{"name":"beat-switcher","cat":"live-performance","desc":"...","tags":["beat","variation","switch","live","drums"],"functions":["s","struct","stack"],"notes":"...","code":"..."}
 ```
 
-Fields: `name` (identifier), `cat` (category: live-performance, rhythm, arrangement, melody, effects), `desc` (what it does), `notes` (usage tips), `code` (the actual Strudel code).
+Fields: `name` (identifier), `cat` (category: live-performance, rhythm, arrangement, melody, effects, syntax), `desc` (what it does), `tags` (keywords for concept-based lookup), `functions` (key Strudel functions demonstrated), `notes` (usage tips), `code` (the actual Strudel code). Not all optional fields are present on every idiom.
 
 To find an idiom: `Grep for "name":"<idiom>" in data/idioms.jsonl`
 To browse by category: `Grep for "cat":"live-performance" in data/idioms.jsonl`
+To search by concept: `Grep for a keyword (e.g., "acid", "walking-bass") in data/idioms.jsonl`
 
 **Adding/removing idioms:** Source files live in `data/idioms/*.strudel`. Each file has a header:
 ```
@@ -94,16 +95,60 @@ To browse by category: `Grep for "cat":"live-performance" in data/idioms.jsonl`
 // @cat: category
 // @desc: Short description
 // @notes: Optional usage tips
+// @tags: keyword1, keyword2, keyword3
+// @functions: func1, func2, func3
 
 // code here
 ```
 Run `make idioms` to regenerate `data/idioms.jsonl`.
 
-### Snippets — `snippets/`
+### Snippet index — `data/snippets.jsonl`
 
-The `snippets/` directory contains `.strudel` files with working Strudel code examples, including custom function registrations and full compositions. Consult these for reusable patterns, idioms, and custom utilities (e.g., `trancegate`) that may help solve the current task.
+Index of working Strudel code examples in the `snippets/` directory. Each line is a JSON object:
+```
+{"name":"trancegate","file":"trance.strudel","desc":"Custom trancegate effect for probabilistic rhythmic gating","tags":["trance","gate","register","utility","generative"]}
+```
 
-To browse snippets: `Glob for snippets/*.strudel` then read relevant files.
+Fields: `name` (identifier), `file` (filename in `snippets/`), `desc` (short description), `tags` (keywords for concept-based lookup).
+
+To find a snippet by concept: `Grep for a keyword (e.g., "trance", "ambient") in data/snippets.jsonl`
+To read a snippet: `Read snippets/<filename>` after finding it via the index.
+
+**Adding snippets:** Add a `.strudel` or `.str` file to `snippets/` with a metadata header:
+```
+// @name: my-snippet
+// @desc: Short description
+// @tags: keyword1, keyword2, keyword3
+
+// code here
+```
+Run `make snippets` to regenerate `data/snippets.jsonl`.
+
+### Function category index — `data/functions-index.jsonl`
+
+Lightweight index of all functions grouped by category. One line per category with just the function names:
+```
+{"cat":"Effects","names":["bpf","crush","delay","distort","hpf","lpf","room","shape","size",...]}
+```
+
+Use this for fast category browsing without pulling full descriptions. Then look up specific functions by name in `data/functions.jsonl`.
+
+To browse categories: `Read data/functions-index.jsonl` (small file, one line per category).
+
+Run `make functions-index` to regenerate (requires `data/functions.jsonl` to exist).
+
+### Semantic map — `data/semantic-map.jsonl`
+
+Maps musical concepts and user language to relevant data across all reference files. Each line is a JSON object:
+```
+{"terms":["acid","303","acid bass"],"grep_cat":"Effects","key_functions":["lpf","lpenv","lpq"],"idioms":["acid"],"sounds":["sawtooth"],"anti_patterns":[]}
+```
+
+Fields: `terms` (user-facing keywords), `grep_cat` (category to browse in functions.jsonl), `key_functions` (most relevant functions), `idioms` (relevant idiom names), `sounds` (relevant sound names), `anti_patterns` (related anti-pattern IDs).
+
+To find relevant resources for a musical concept: `Grep for the concept keyword in data/semantic-map.jsonl`
+
+This file is hand-curated. Edit it directly when adding new concept mappings.
 
 ### Last Resort: Strudel Source Code
 
@@ -115,32 +160,35 @@ The source is a pnpm monorepo; each package lives under `packages/<name>/`. Key 
 
 Follow these steps in order when asked to write Strudel code.
 
-**Step 1 — Identify requirements.** Determine what the user wants: sounds, rhythm, melody, effects, tempo, structure. Note any ambiguous musical terms (see Semantic Mapping below).
+**Step 1 — Identify requirements.** Determine what the user wants: sounds, rhythm, melody, effects, tempo, structure. Note any ambiguous musical terms.
 
-**Step 2 — Look up sounds.** If the snippet needs specific sounds, Grep for the sound name in `data/sounds.jsonl`. Confirm every sound name exists before using it.
+**Step 2 — Pre-load small files.** Read `data/anti-patterns.jsonl` and `data/mini-notation.jsonl` in full (both are tiny). Internalize these before composing.
 
-**Step 3 — Look up functions.** For each function you plan to use, Grep for `"name":"<fn>"` in `data/functions.jsonl`. Check desc, params, and examples. Pay attention to synonyms — many functions have shorthand names.
+**Step 3 — Search for relevant patterns.** Grep for the user's key terms in `data/semantic-map.jsonl` for a roadmap of relevant functions, idioms, sounds, and anti-patterns. Then check `data/idioms.jsonl` and `data/snippets.jsonl` for existing patterns that cover the request.
 
-**Step 4 — Check mini-notation.** If using mini-notation strings, read `data/mini-notation.jsonl` to verify syntax.
+**Step 4 — Look up sounds.** If the snippet needs specific sounds, Grep for the sound name in `data/sounds.jsonl`. Confirm every sound name exists before using it.
 
-**Step 5 — Compose the snippet.** Write the code using only verified function names, sound names, and syntax.
+**Step 5 — Look up functions.** For each function you plan to use, Grep for `"name":"<fn>"` in `data/functions.jsonl`. Check desc, params, and examples. For category browsing, start with `data/functions-index.jsonl` for a lightweight overview, then look up specific functions. Pay attention to synonyms — many functions have shorthand names.
 
-**Step 6 — Verify.** Before presenting the snippet, check ALL of the following:
+**Step 6 — Compose the snippet.** Write the code using only verified function names, sound names, and syntax. Follow any relevant idioms found in Step 3.
+
+**Step 7 — Verify.** Before presenting the snippet, check ALL of the following:
 
 - [ ] Every function name appears in `data/functions.jsonl`
 - [ ] Every sound name appears in `data/sounds.jsonl`
 - [ ] Mini-notation syntax follows documented rules
 - [ ] Method chaining is consistent (pattern methods return patterns)
-- [ ] **No anti-patterns** — scan code against `data/anti-patterns.jsonl`:
+- [ ] **No anti-patterns** — scan code against `data/anti-patterns.jsonl` (already pre-loaded):
   - [ ] No verbose repetitions: `~ ~ ~ ~` → `~!4`, `bd bd bd` → `bd!3`, `[a b] [a b]` → `[a b]!2`
   - [ ] No string interpolation in mini-notation (no `${var}` in pattern strings)
   - [ ] No JS string methods on patterns (no `.replace()`, `.slice()`)
   - [ ] Tempo is correct: `setcpm(BPM/4)` for 4/4 time, not `setcpm(BPM)`
+- [ ] **Idiom alignment** — if relevant idioms exist, does the code follow their approach?
 - [ ] **Rewrites applied** — check `rewrites` field in `data/mini-notation.jsonl` for simplifications
 
 ## Semantic Mapping: Musical Concepts to Documentation
 
-When users describe what they want in musical terms rather than function names, use this mapping to determine where to look.
+For programmatic lookups, use `data/semantic-map.jsonl` — it maps keywords to relevant functions, idioms, sounds, and anti-patterns. The table below is a quick human-readable reference.
 
 | User says | Grep `data/functions.jsonl` for | Key functions |
 |-----------|-------------------------------|---------------|
@@ -168,3 +216,13 @@ When users describe what they want in musical terms rather than function names, 
 - Tempo is in cycles per minute (cpm), not BPM. In 4/4 time, `setcpm(BPM / 4)` or equivalently `setcps(BPM / 4 / 60)`.
 - Mini-notation `*` (repeat) and `/` (slow) apply to the element they follow, not the whole pattern.
 - Euclidean rhythm mini-notation `(k,n)` goes after the sound name: `"bd(3,8)"`, not `"(3,8) bd"`.
+
+## Authoring Skill Files (.claude/skills/*/SKILL.md)
+
+Skill file contents are expanded and processed through the shell at invocation time. **Avoid shell-sensitive characters in prose text** — they can trigger bash permission check failures and break skill invocation.
+
+Known problematic patterns:
+- Backtick-wrapped exclamation marks (e.g., `` `!` ``) — the `!` is interpreted as bash history expansion inside backticks.
+- Bare backticks adjacent to shell metacharacters (`$`, `!`, `\`) — these can be misread as command substitution or variable expansion.
+
+**Fix:** Spell out the operator name in words (e.g., "replicate operator" instead of wrapping the `!` symbol in backticks), or restructure the sentence to avoid the problematic combination. Code blocks (triple-backtick fenced blocks) are generally safe.

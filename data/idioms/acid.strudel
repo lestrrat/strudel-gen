@@ -2,6 +2,8 @@
 // @cat: effects
 // @desc: Acid bass toolkit: slider-controlled filter envelope and TB-303-style bass line
 // @notes: Credit: Switch Angel. Two parts: (1) acidenv — a registered method for slider-driven LP filter sweeps, and (2) an acid bass line demonstrating its use. The style is acid house / acid techno in the vein of the Roland TB-303: 16th-note sawtooth bass through a diode ladder filter with envelope-controlled cutoff. The wavetable + unison layering pushes it into modern acid techno territory — thicker and more aggressive than the original hardware.
+// @tags: acid, 303, filter, bass, envelope, techno, register
+// @functions: register, lpf, lpenv, lps, lpd, lpq, s, wt, wtenv, unison, dec, diode, fm, note, slider
 
 // --- acidenv: reusable slider-controlled filter envelope ---
 // The first argument (x) is typically driven by slider() (range 0-1).

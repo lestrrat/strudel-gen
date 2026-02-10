@@ -52,17 +52,41 @@ If the request is ambiguous, make a reasonable artistic choice and note what you
 
 All reference data lives in the `data/` directory as compact JSONL files (one JSON object per line), optimized for Grep lookups.
 
-1. **Sounds:** Grep for the sound name in `data/sounds.jsonl`. If a sound doesn't exist, find an alternative that does.
+#### Step 2a — Learn the constraints (do this first)
 
-2. **Functions:** Grep for `"name":"<fn>"` in `data/functions.jsonl` for every function you plan to use. Verify parameter signatures, check for aliases, and review examples. To browse a category, Grep for `"cat":"<Category>"`.
+Consult these files before composing — they define the rules your code must follow:
+- `data/anti-patterns.jsonl` — common mistakes to avoid during composition
+- `data/mini-notation.jsonl` — syntax reference for pattern strings
 
-3. **Mini-notation:** Read `data/mini-notation.jsonl` to verify syntax (small enough to read in full).
+Internalize these before composing. This prevents anti-pattern violations from being introduced in the first place.
 
-4. **Effects:** Grep for `"cat":"Effects"` in `data/functions.jsonl` to find effect functions.
+#### Step 2b — Search for relevant idioms and snippets
 
-5. **Tonal:** Grep for `"cat":"Tonal"` in `data/functions.jsonl` for scales, chords, or voicings.
+Check if established patterns already cover what the user wants:
 
-6. **Last resort — Strudel source code:** Only consult `/home/lestrrat/dev/src/codeberg.org/uzu/strudel/` when the data files above don't answer the question.
+1. **Semantic map:** Grep for the user's key terms in `data/semantic-map.jsonl`. This maps musical concepts to relevant functions, idioms, sounds, and anti-patterns — giving you a roadmap for all subsequent lookups.
+2. **Idioms:** Grep `data/idioms.jsonl` for matching tags or categories (e.g., `"tags"` containing "acid", or `"cat":"rhythm"`). If a relevant idiom exists, read its `code` field to understand the recommended approach, and note its `functions` field to know which functions to look up next.
+3. **Snippets:** Grep `data/snippets.jsonl` for matching tags (e.g., "trance", "ambient"). If a relevant snippet exists, read the actual snippet file from `snippets/` for reusable techniques.
+
+#### Step 2c — Look up sounds
+
+Grep for sound names in `data/sounds.jsonl`. If a sound doesn't exist, find an alternative that does.
+
+#### Step 2d — Look up functions
+
+For every function you plan to use, Grep for `"name":"<fn>"` in `data/functions.jsonl`. Verify parameter signatures, check for aliases, and review examples.
+
+For category browsing, use `data/functions-index.jsonl` first — it has just function names grouped by category, without the full descriptions. Then look up specific functions you need.
+
+To browse a full category, Grep for `"cat":"<Category>"` in `data/functions.jsonl`.
+
+#### Step 2e — Cross-reference idiom functions
+
+If you found relevant idioms in Step 2b, look up each function listed in the idiom's `functions` field. This ensures you understand the exact API of every function the idiom demonstrates.
+
+#### Last resort — Strudel source code
+
+Only consult the Strudel source tree when the data files above don't answer the question. Check the `STRUDEL_SRC` environment variable for the source path. If it is not set, ask the user.
 
 ### Phase 3 — Compose the code
 
@@ -98,9 +122,9 @@ Write the Strudel snippet following these principles:
 - **Appropriate complexity.** Match the complexity to the request. A "simple beat" should be a few lines. A "full track" should have multiple layers with effects.
 - **Tempo.** Always set tempo explicitly with `setcpm()` when the piece has a specific BPM feel. Remember: `setcpm(BPM / 4)` for 4/4 time.
 
-### Phase 4 — Verify and iterate
+### Phase 4 — Verify and fix
 
-Before showing the code, run through this checklist. **If any check fails, return to Phase 1 with the fix in mind and regenerate.**
+Before showing the code, run through this checklist.
 
 **Correctness checks:**
 - [ ] Every sound name exists in `data/sounds.jsonl`
@@ -109,7 +133,7 @@ Before showing the code, run through this checklist. **If any check fails, retur
 - [ ] Method chains are valid (pattern methods return patterns)
 - [ ] The musical result matches the user's intent
 
-**Anti-pattern scan:** Read `data/anti-patterns.jsonl` and verify your code doesn't contain any listed anti-patterns. Common violations:
+**Anti-pattern scan:** Verify your code against `data/anti-patterns.jsonl` (consulted in Phase 2a). Common violations:
 - [ ] No verbose repetitions (`~ ~ ~ ~` → `~!4`, `bd bd bd` → `bd!3`)
 - [ ] No string interpolation in mini-notation (no `${var}` in pattern strings)
 - [ ] No JS string methods on patterns (no `.replace()`, `.slice()`)
@@ -117,16 +141,14 @@ Before showing the code, run through this checklist. **If any check fails, retur
 - [ ] No calling pattern methods like `.add()` on pattern results instead of mini-notation strings
 - [ ] No redundant function calls (`s()` and `sound()` are aliases — use one, not both)
 
-**Idiom alignment:** Read `data/idioms.jsonl` and check:
-- [ ] If an idiom covers a pattern you wrote, does your code follow its recommended approach?
+**Idiom alignment:** If relevant idioms were found in Phase 2b:
+- [ ] Does your code follow the idiom's recommended approach?
 - [ ] Are you avoiding mistakes the idiom warns against (WRONG vs CORRECT examples)?
 - [ ] For string operations, are you using single quotes only? (see `string-concatenation` idiom)
 
-**Snippet reference:** Glob `snippets/*.strudel` and scan for similar patterns:
-- [ ] Does a snippet solve the same problem more elegantly?
-- [ ] Can you adopt techniques from existing snippets?
-
-**Iteration rule:** If you find issues during verification, do NOT patch the code in place. Instead, return to Phase 1 with the lessons learned and regenerate the code from scratch. This produces cleaner, more coherent results than incremental fixes.
+**Fix strategy — tiered response:**
+- **Structural issues** (wrong musical approach, missing layers, incorrect function usage): return to Phase 3 and regenerate the code from scratch with the lessons learned. This produces cleaner, more coherent results than incremental fixes.
+- **Surface issues** (verbose repetitions, missing replicate operators, comment adjustments): fix in place. These are mechanical and don't require rethinking the composition.
 
 ### Phase 5 — Present the result
 

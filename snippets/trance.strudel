@@ -1,3 +1,7 @@
+// @name: trancegate
+// @desc: Custom trancegate effect for probabilistic rhythmic gating
+// @tags: trance, gate, register, utility, generative
+
 // Seeded pseudo-random trance gate (from switchangel's strudel scripts).
 // Chops the input into 16th-note steps, randomly mutes some based on
 // density (higher = more gates open), and loops the resulting pattern

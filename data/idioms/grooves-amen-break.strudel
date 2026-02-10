@@ -2,6 +2,8 @@
 // @cat: rhythm
 // @desc: Classic amen break with humanized hi-hats and arranged kick/snare variations
 // @notes: Three beat variations arranged over 4 cycles. Hi-hats use rand for humanized timing and velocity.
+// @tags: amen, breakbeat, dnb, drums, humanize
+// @functions: s, rand, range, nudge, gain, stack, arrange
 
 setcpm(130/4) // Set tempo: 130 BPM in 4/4 (cpm = BPM/4)
 

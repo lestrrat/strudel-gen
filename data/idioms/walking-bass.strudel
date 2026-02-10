@@ -2,6 +2,8 @@
 // @cat: rhythm
 // @desc: A walking bass moves stepwise — transposing a pattern with .add() doesn't create true walking motion
 // @notes: Walking bass lines move by steps with chromatic passing tones, not by preserving an interval pattern. Using .add() to transpose a fixed pattern creates parallel motion (arpeggiation), not walking. For authentic walking bass, write out lines per chord using note() with actual note names, and use cat() to sequence them. For blues feel: include the flat 7 (dominant 7) in chromatic approaches — e.g., approaching C use "a bb b" not "ab a b". The flat 7 is the characteristic blues note; omitting it sounds cleaner but loses the bluesy quality.
+// @tags: walking-bass, blues, chromatic, bass, voice-leading
+// @functions: n, add, scale, s, note, cat, gain, lpf
 
 // WRONG: Using .add() to transpose a pattern
 // This preserves intervallic contour — it's arpeggiation, not walking

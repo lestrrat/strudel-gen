@@ -2,6 +2,7 @@
 // @cat: syntax
 // @desc: Use single quotes for string concatenation — double quotes and backticks are transpiled as mini-notation
 // @notes: Only single-quoted strings behave as plain JS strings. Double quotes and backticks trigger mini-notation parsing, breaking concatenation.
+// @tags: syntax, strings, quotes, concatenation
 
 // CORRECT: single quotes only
 'c4' + ':major'  // → "c4:major"

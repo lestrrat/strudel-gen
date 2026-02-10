@@ -2,6 +2,8 @@
 // @cat: live-performance
 // @desc: Generate random pattern, then freeze a repeatable slice with ribbon()
 // @notes: Tweak the first ribbon() param (offset) to scrub through random space and find a pattern you like. The second param controls loop length in cycles.
+// @tags: random, freeze, ribbon, generative, live
+// @functions: s, degradeBy, ribbon, n, irand, segment, scale
 
 // Random clap pattern frozen at offset 19, looping 2 cycles
 const cp = s("cp!16?").degradeBy(0.6).ribbon(19, 2)

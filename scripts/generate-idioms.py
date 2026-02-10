@@ -12,10 +12,12 @@ Each .strudel file should have a header comment block with metadata:
     ...
 
 Supported fields:
-    @name   - Required. Identifier for grepping (kebab-case recommended)
-    @cat    - Required. Category (e.g., live-performance, rhythm, arrangement)
-    @desc   - Required. Short description of what the idiom does
-    @notes  - Optional. Usage tips, gotchas, or explanation
+    @name      - Required. Identifier for grepping (kebab-case recommended)
+    @cat       - Required. Category (e.g., live-performance, rhythm, arrangement)
+    @desc      - Required. Short description of what the idiom does
+    @notes     - Optional. Usage tips, gotchas, or explanation
+    @tags      - Optional. Comma-separated keywords for concept-based lookup
+    @functions - Optional. Comma-separated key Strudel functions demonstrated
 
 The code (everything after the header block) is captured verbatim.
 
@@ -105,6 +107,8 @@ def parse_strudel_file(path):
         'cat': metadata['cat'],
         'desc': metadata['desc'],
         'notes': metadata.get('notes'),
+        'tags': metadata.get('tags'),
+        'functions': metadata.get('functions'),
         'code': code,
     }
 
@@ -143,6 +147,10 @@ def generate_idioms(src_dir, out_dir):
             }
             if record.get('notes'):
                 rec['notes'] = record['notes']
+            if record.get('tags'):
+                rec['tags'] = [t.strip() for t in record['tags'].split(',')]
+            if record.get('functions'):
+                rec['functions'] = [f.strip() for f in record['functions'].split(',')]
             rec['code'] = record['code']
 
             out.write(json.dumps(rec, separators=(',', ':'), ensure_ascii=False) + '\n')
