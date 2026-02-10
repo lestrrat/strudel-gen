@@ -1,0 +1,13 @@
+// @name: grooves-four-on-the-floor
+// @cat: rhythm
+// @desc: Four-on-the-floor kick pattern with live-coding toggle trick
+// @notes: Use commented-out .rib(0, 1/4) to quickly switch between two-step and four-on-the-floor during a live set.
+
+// simple method
+s("bd!4")
+
+// for live-coding where you might alternate between four on the floor and
+// two step, you might do this (including the comments after)
+
+s("[bd sd]!2") // basic two step
+//    .rib(0, 1/4) // uncomment to get four on the floor on the fly

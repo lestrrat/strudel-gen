@@ -1,0 +1,13 @@
+// @name: acidenv
+// @cat: effects
+// @desc: Slider-controlled acid filter envelope via register()
+// @notes: Credit: Switch Angel. Registers "acidenv" as a reusable method. The first argument (x) is typically driven by slider(1) (range 0-1). At x=0, the filter stays closed at 100 Hz (dark/muffled). At x=0.5, a moderate filter sweep gives a plucky wah-like character. At x=1, a full sweep produces bright aggressive transients. Useful for live performance builds, tension control (low for verses, high for drops), and expressive filter knob-style playing.
+
+register('acidenv', (x, pat) =>
+  pat
+    .lpf(100)          // low-pass filter cutoff at 100 Hz
+    .lpenv(x * 9)      // LP envelope mod depth (scaled by x)
+    .lps(0.1)          // LP envelope sustain amplitude (0.1)
+    .lpd(.1)           // LP envelope decay time (0.1s)
+    .lpq(2)            // LP resonance factor (2)
+)

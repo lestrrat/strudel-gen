@@ -1,3 +1,8 @@
+// @name: grooves-amen-break
+// @cat: rhythm
+// @desc: Classic amen break with humanized hi-hats and arranged kick/snare variations
+// @notes: Three beat variations arranged over 4 cycles. Hi-hats use rand for humanized timing and velocity.
+
 setcpm(130/4) // Set tempo: 130 BPM in 4/4 (cpm = BPM/4)
 
 // Beat 1 — primary kick/snare pattern (plays for 2 of 4 cycles)

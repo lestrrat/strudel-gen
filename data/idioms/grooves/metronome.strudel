@@ -1,7 +1,0 @@
-// 4/4 metronome / click track
-// struct/add/gain should be tuned according the setup
-
-const click = s("sawtooth").struct("t!4")
-  .note("c5".add("3 0 0 0"))
-  .clip(0.25)
-  .gain("1 0.25!3")

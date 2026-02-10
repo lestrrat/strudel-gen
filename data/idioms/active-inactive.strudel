@@ -1,14 +1,19 @@
+// @name: active-inactive
+// @cat: live-performance
+// @desc: Toggle patterns on/off with underscore prefix on reactive statements
+// @notes: Prefix a reactive statement with _ to mute it. Easier than commenting out lines during live performance.
+
 // In strudel, you can automatically include patterns in the
 // currently playing pattern by using the `$:` reactive statement.
 $: s("bd sd").fast(2)
 
-// You can have make a named reactive statement as well.
+// You can make a named reactive statement as well.
 GROOVE: s("bd sd").fast(2)
 
 // You can also disable these reactive statements by adding a leading underscore.
 _$: s("hh!8").gain(0.5)
 _HH: s("hh!8").gain(0.5)
 
-// These patterns are sometimes more favorible for live-coding, because
+// These patterns are sometimes more favorable for live-coding, because
 // they are easier to enable/disable on the fly without having to
 // comment/uncomment lines, or change variable values.
