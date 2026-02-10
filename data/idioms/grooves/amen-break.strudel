@@ -1,0 +1,43 @@
+setcpm(130/4) // Set tempo: 130 BPM in 4/4 (cpm = BPM/4)
+
+// Beat 1 — primary kick/snare pattern (plays for 2 of 4 cycles)
+const beat1 = s(
+  "[[bd!2] [sd@3 sd@1] [~ sd bd!2] [sd@3 sd@1]]"
+  //  2 kicks  dotted sd     rest→sd→2 kicks  dotted sd
+  //           + ghost sd    (syncopation)     + ghost sd
+)
+  ._pianoroll() // Inline pianoroll visualization
+
+// Beat 2 — variation: last beat is rest + ghost snare pickup
+const beat2 = s(
+  "[[bd!2] [sd@3 sd@1] [~ sd bd@2] [~@3 sd@1]]"
+  //                     rest→sd→    3/4 rest
+  //                     held kick   + ghost sd
+)
+  ._pianoroll() // Inline pianoroll visualization
+
+// Beat 3 — variation: opens with rest→snare instead of kicks
+const beat3 = s(
+  "[[~ sd bd!] [sd@3 sd@1] [~ sd bd@2] [~@3 sd@1]]"
+  //  rest→sd→2 kicks (pickup into dotted snare)
+)
+  ._pianoroll() // Inline pianoroll visualization
+
+// Hi-hats — 8th notes with humanized timing and velocity
+const hh = s("hh!8")                // 8 hi-hats per cycle (8th notes)
+  .nudge(rand.range(0, 0.015))      // Random timing shift 0–15ms (humanize)
+  .gain(rand.range(0.7, 1))         // Random gain 0.7–1.0 (humanize)
+  ._pianoroll()                      // Inline pianoroll visualization
+
+
+// Full amen break — hats layered with arranged kick/snare
+const amen = stack(                  // Play patterns simultaneously
+  hh,                                // Continuous hi-hats
+  arrange(                           // Sequence patterns over cycles
+    [2, beat1],                      // beat1 for 2 cycles
+    [1, beat2],                      // beat2 for 1 cycle
+    [1, beat3],                      // beat3 for 1 cycle
+  )._pianoroll()                     // Inline pianoroll for arrangement
+)
+
+$: amen                              // Play the full amen break

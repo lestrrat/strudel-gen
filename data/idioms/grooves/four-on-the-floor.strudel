@@ -1,0 +1,9 @@
+
+// simple method
+s("bd!4)
+
+// four live-coding where you might alternate between four on the floor and
+// two step, you might do this (including the comments after)
+
+s("[bd sd]!2") // basic two step
+//    .rib(0, 1/4) // uncomment to get four on the floor on the fly
