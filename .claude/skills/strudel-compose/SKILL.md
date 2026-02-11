@@ -96,29 +96,28 @@ Write the Strudel snippet following these principles:
 - **Musicality first.** The code should sound good, not just be technically correct. Consider dynamics, space, and groove.
 - **Idiomatic Strudel.** Use mini-notation where it's concise. Use method chaining naturally. Prefer concise mini-notation operators over spelling out repetitions. The replicate operator (written as an exclamation mark after an element, e.g. "bd" followed by exclamation mark and "4") is better than writing "bd bd bd bd". Likewise "hh*8" is better than writing hh eight times, and "A" with exclamation mark "2" is better than "A A". Use "@" for duration weighting and the exclamation mark operator for replication wherever they reduce verbosity.
 - **Aggressively simplify repeated groups.** Always scan mini-notation strings for repeated subsequences and factor them out using group replication — wrap the repeating group in square brackets and apply the replicate operator. For example, "~ cp ~ cp" should be written as "[~ cp]" followed by exclamation mark "2"; "bd sd bd sd" becomes "[bd sd]" followed by exclamation mark "2"; and inside angle brackets, "<Am Am C C>" becomes "<Am" followed by exclamation mark "2 C" followed by exclamation mark "2>". This applies at any nesting level and combines with other operators — e.g. "[bd sd]" followed by exclamation mark "2" then "*2" would double-speed the replicated group. **Correctness guard:** only factor out groups that are truly identical step-for-step. "bd ~ sd ~" must stay as-is because the two halves differ (bd vs sd). Always mentally expand the simplified pattern and verify it matches the original before using it.
-- **Use `stack()` for layering.** Do NOT use `$:` or named pattern labels. Instead, define each layer as a `const` and combine them in a single `stack()` call at the end. This keeps the code structured and the output as one expression.
+- **Use named reactive statements for layering.** Give each layer a descriptive name using `$NAME: pattern` syntax (e.g., `$KICK: s("bd*4")`). Each named statement is an independent pattern that plays simultaneously and can be individually muted, tweaked, or reordered during a live set.
 - **Relative pitch preferred.** Use scale degrees with `n()` + `.scale()` instead of absolute note names with `note()`. This makes patterns easier to transpose, reuse, and reason about musically. Reserve `note()` for cases where absolute pitch is essential (e.g., specific bass notes, exact melodic transcriptions, or when no scale context applies). When building chords with scale degrees, use stacked values: `n("[0,2,4]").scale("C4:minor")`.
-- **Extract values into variables.** Prefer `const` variables over inline string literals for any value that is shared across layers, represents a meaningful musical concept, or would benefit from a descriptive name. This includes scales, drum bank names, tempos, and shared patterns or rhythmic structures. Single-use literals that are self-explanatory (e.g., a gain value) can stay inline. **Important:** Variables holding strings can only be used as function arguments (e.g., `.scale(myScale)`, `.bank(myDrums)`). They CANNOT be interpolated into mini-notation strings — Strudel mini-notation is parsed at runtime from plain strings, not template literals. Never use backtick template strings with ${} to build mini-notation. If you need to combine sections, write them out in the string directly. Example:
+- **Extract shared values into variables.** Use `const` for values shared across layers (scales, drum bank names, tempos). Single-use literals that are self-explanatory (e.g., a gain value) can stay inline. **Important:** Variables holding strings can only be used as function arguments (e.g., `.scale(myScale)`, `.bank(myDrums)`). They CANNOT be interpolated into mini-notation strings — Strudel mini-notation is parsed at runtime from plain strings, not template literals. Never use backtick template strings with ${} to build mini-notation. If you need to combine sections, write them out in the string directly. Example:
   ```
   const scale = "C4:minor"
   const bpm = 140
   const drums = "RolandTR909"
   setcpm(bpm/4)
   // four-on-the-floor kick
-  const kick = s("bd*4").bank(drums).gain(0.9)
+  $KICK: s("bd*4").bank(drums).gain(0.9)
   // clap on beats 2 and 4 (group replication: [~ cp]!2 not ~ cp ~ cp)
-  const clap = s("[~ cp]!2").bank(drums).gain(0.7)
+  $CLAP: s("[~ cp]!2").bank(drums).gain(0.7)
   // 8th-note hi-hats
-  const hats = s("hh*8").bank(drums).gain(0.4)
+  $HATS: s("hh*8").bank(drums).gain(0.4)
   // minor scale melody
-  const melody = n("0 2 4 7").scale(scale).s("piano")
+  $MELODY: n("0 2 4 7").scale(scale).s("piano")
   // bass following root movement
-  const bass = n("0!2 3 4").scale(scale).s("sawtooth")
+  $BASS: n("0!2 3 4").scale(scale).s("sawtooth")
   // chord pad with auto-voicing
-  const pads = chord("<Am C F G>").voicing().s("supersaw")
-  stack(kick, clap, hats, melody, bass, pads)
+  $PADS: chord("<Am C F G>").voicing().s("supersaw")
   ```
-- **Annotate with comments.** Add a short comment above each distinct musical section or layer to describe its role (e.g., "// acid bassline with filter sweep", "// clap on beats 2 and 4"). Also annotate non-obvious rhythm or gain patterns (e.g., "// gain per beat: downbeat / ghost / and / ghost"). Skip comments for self-evident lines like setting BPM, declaring scale names, or the final `stack()` call.
+- **Annotate with comments.** Add a short comment above each distinct musical section or layer to describe its role (e.g., "// acid bassline with filter sweep", "// clap on beats 2 and 4"). Also annotate non-obvious rhythm or gain patterns (e.g., "// gain per beat: downbeat / ghost / and / ghost"). Skip comments for self-evident lines like setting BPM or declaring scale names.
 - **Appropriate complexity.** Match the complexity to the request. A "simple beat" should be a few lines. A "full track" should have multiple layers with effects.
 - **Tempo.** Always set tempo explicitly with `setcpm()` when the piece has a specific BPM feel. Remember: `setcpm(BPM / 4)` for 4/4 time.
 
@@ -163,7 +162,7 @@ Provide:
 - `n()` with `.scale()` = scale degree (relative pitch). `n()` without `.scale()` = sample index. `note()` = absolute pitch (note name or MIDI number).
 - **Note name casing:** Use lowercase for single notes (e.g., `c3`, `eb4`, `f#2`) and uppercase for chords (e.g., `C`, `Cm`, `Cmaj7`, `F#m7`). Only the root letter is capitalized in chords.
 - `s()` and `sound()` are aliases.
-- **Do NOT use `$:` or labels.** Use `const` variables and `stack()` to combine layers.
+- **Use `$NAME: pattern` for layers.** Each named reactive statement plays simultaneously and can be individually modified during a live set. Use `const` only for shared values (scales, drum banks, tempos), not for pattern layers.
 - Tempo: `setcpm(BPM / 4)` for 4/4 time, or `setcps(BPM / 4 / 60)`.
 - **Use concise mini-notation:** the exclamation mark operator to replicate elements (e.g. bd followed by exclamation 4) and groups (e.g. [~ cp] followed by exclamation 2 instead of ~ cp ~ cp), the asterisk to subdivide (e.g. hh*8), and @ to elongate (e.g. d4@2). Never spell out repetitions longhand. Always verify that the expanded form of any simplification matches the original pattern.
 - Mini-notation `*` and `/` apply to the preceding element only.
